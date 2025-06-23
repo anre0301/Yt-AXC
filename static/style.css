@@ -652,11 +652,14 @@ button {
         width: 100%;
     }
 
-    .input-icon input, button {
-        width: 100%;
-        border-radius: 8px;
-        margin-bottom: 10px;
-    }
+    .input-icon {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  gap: 10px;
+}
 
     .video-thumbnail {
         max-width: 90%;
@@ -685,3 +688,67 @@ button {
 .logo-img:hover {
     transform: scale(1.08);
 }
+
+/* Estilo base del formulario centrado */
+form {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 15px; /* Añade padding lateral para evitar que toque el borde */
+  box-sizing: border-box;
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  gap: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.input-icon input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 12px;
+  font-size: 16px;
+}
+
+.input-icon button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #ff2c72;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .input-icon {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .input-icon input,
+  .input-icon button {
+    width: 100%;
+    border-radius: 10px;
+  }
+}
+
