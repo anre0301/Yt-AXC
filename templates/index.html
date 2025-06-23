@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>YouTube Downloader</title>
+	<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <div class="logo animated-logo">
+  <i class="fab fa-youtube"></i> Yt <span>AXC</span>
+</div>
+        <ul class="menu">
+            <li><a href="{{ url_for('index_audio') }}" class="{{ 'active' if modo == 'audio' else '' }}">YouTube a MP3</a></li>
+            <li><a href="{{ url_for('index_video') }}" class="{{ 'active' if modo == 'video' else '' }}">YouTube a MP4</a></li>
+            <li><a href="{{ url_for('index_all') }}" class="{{ 'active' if modo == 'html' else '' }}">All Video Downloader</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>YouTube Downloader</h1>
+        <form action="{{ url_for('procesar') }}" method="POST">
+    <input type="hidden" name="modo" value="{{ modo }}">
+    <div class="input-icon">
+        <i class="fab fa-youtube"></i>
+        <input type="url" name="url" placeholder="https://www.youtube.com/watch?v=..." required>
+    </div>
+    <button type="submit">Convertir</button>
+</form>
+
+
+        <div class="loader" id="loader" style="display:none;">
+            <div class="spinner"></div>
+            <p>Su video está siendo procesado, por favor espere.</p>
+        </div>
+
+        <p class="info-text">Descarga y convierte vídeos de YouTube a MP3 o MP4. Rápido. Gratis. Sin anuncios.</p>
+    </div>
+
+    <script>
+        const form = document.querySelector("form");
+        const loader = document.getElementById("loader");
+        form.addEventListener("submit", () => {
+            loader.style.display = "block";
+        });
+    </script>
+	<section class="features-section">
+    <h2 class="features-title">¿Por qué elegir Yt AXC?</h2>
+	<p class="features-description">
+    En Yt AXC ofrecemos una experiencia de descarga sin interrupciones: rápida, segura y accesible desde cualquier dispositivo. 
+    Nuestro convertidor te permite obtener tus videos y audios favoritos sin publicidad, sin límites y con calidad garantizada. 
+    ¡Simplifica tus descargas y disfruta al instante!
+</p>
+    <div class="features-grid">
+        <div class="feature-box">
+            <div class="feature-icon">⚡</div>
+            <h3>Conversión rápida</h3>
+            <p>Descarga videos de YouTube en segundos con conversión ultrarrápida.</p>
+        </div>
+        <div class="feature-box">
+            <div class="feature-icon">🔒</div>
+            <h3>Seguro y privado</h3>
+            <p>No recopilamos tus datos. 100% seguro y libre de virus.</p>
+        </div>
+        <div class="feature-box">
+            <div class="feature-icon">📥</div>
+            <h3>Sin límites</h3>
+            <p>Convierte y descarga todos los videos que quieras, sin restricciones.</p>
+        </div>
+        <div class="feature-box">
+            <div class="feature-icon">🎧</div>
+            <h3>Calidad profesional</h3>
+            <p>Elige entre 64kbps, 128kbps, 192kbps o hasta 320kbps en MP3.</p>
+        </div>
+        <div class="feature-box">
+            <div class="feature-icon">💻</div>
+            <h3>Compatible con todo</h3>
+            <p>Funciona en PC, tabletas y móviles. No requiere instalación.</p>
+        </div>
+        <div class="feature-box">
+            <div class="feature-icon">☁️</div>
+            <h3>Sube a la nube</h3>
+            <p>Guarda directamente en Google Drive o tu nube favorita (opcional).</p>
+        </div>
+    </div>
+</section>
+</body>
+</html>

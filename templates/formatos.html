@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Download Formats</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="logo">Yt AXC</div>
+        <ul class="menu">
+            <li><a href="{{ url_for('index_audio') }}" class="{{ 'active' if modo == 'audio' else '' }}">YouTube to MP3</a></li>
+            <li><a href="{{ url_for('index_video') }}" class="{{ 'active' if modo == 'video' else '' }}">YouTube to MP4</a></li>
+            <li><a href="{{ url_for('index_all') }}" class="{{ 'active' if modo == 'all' else '' }}">All Video Downloader</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% if thumb %}
+            <img src="{{ thumb }}" alt="Thumbnail" class="video-thumbnail">
+        {% endif %}
+        <h2>{{ titulo }}</h2>
+
+        <div class="format-list">
+            {% for f in formatos %}
+                <div class="format-box">
+                    <p class="format-title">
+                        {% if f.ext == 'mp3' or 'mp3' in f.get('format', '') %}
+                            MP3 - Audio only
+                        {% elif f.vcodec == 'none' %}
+                            {{ f.ext.upper() }} - Audio only
+                        {% else %}
+                            {{ f.ext.upper() }} - 
+                            {% if f.height %}
+                                {{ f.height }}p
+                                {% if f.height >= 2160 %}
+                                    (4K)
+                                {% elif f.height >= 1440 %}
+                                    (2K)
+                                {% elif f.height >= 1080 %}
+                                    (1080p)
+                                {% elif f.height >= 720 %}
+                                    (720p)
+                                {% endif %}
+                            {% else %}
+                                Unknown quality
+                            {% endif %}
+                        {% endif %}
+                    </p>
+                    <p class="size">{{ "%.2f" % (f.filesize / 1048576 if f.filesize else 0) }} MB</p>
+                    {% if f.url %}
+                        <form action="{{ url_for('descargar_stream') }}" method="post">
+                            <input type="hidden" name="stream_url" value="{{ f.url }}">
+                            <input type="hidden" name="filename" value="{{ titulo }}.{{ f.ext }}">
+                            <button type="submit" class="download-btn">Download</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+			
+        </div>
+    </div>
+</body>
+</html>
