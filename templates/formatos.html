@@ -29,29 +29,30 @@
         <div class="format-list">
             {% for f in formatos %}
                 <div class="format-box">
-                    <p class="format-title">
-                        {% if f.ext == 'mp3' or 'mp3' in f.get('format', '') %}
-                            MP3 - Audio only
-                        {% elif f.vcodec == 'none' %}
-                            {{ f.ext.upper() }} - Audio only
-                        {% else %}
-                            {{ f.ext.upper() }} - 
-                            {% if f.height %}
-                                {{ f.height }}p
-                                {% if f.height >= 2160 %}
-                                    (4K)
-                                {% elif f.height >= 1440 %}
-                                    (2K)
-                                {% elif f.height >= 1080 %}
-                                    (1080p)
-                                {% elif f.height >= 720 %}
-                                    (720p)
-                                {% endif %}
-                            {% else %}
-                                Unknown quality
-                            {% endif %}
-                        {% endif %}
-                    </p>
+    <p class="format-title">
+        {% if f.ext == 'mp3' or 'mp3' in f.get('format', '') %}
+            MP3 - Audio only
+        {% elif f.vcodec == 'none' %}
+            {{ f.ext.upper() }} - Audio only
+        {% else %}
+            {{ f.ext.upper() }} - 
+            {% if f.height %}
+                {{ f.height }}p
+                {% if f.height >= 2160 %}
+                    (4K)
+                {% elif f.height >= 1440 %}
+                    (2K)
+                {% elif f.height >= 1080 %}
+                    (1080p)
+                {% elif f.height >= 720 %}
+                    (720p)
+                {% endif %}
+            {% else %}
+                Unknown quality
+            {% endif %}
+        {% endif %}
+    </p>
+	
                     <p class="size">{{ "%.2f" % (f.filesize / 1048576 if f.filesize else 0) }} MB</p>
                     {% if f.url %}
                         <form action="{{ url_for('descargar_stream') }}" method="post">

@@ -23,42 +23,50 @@ def index_all():
 @app.route("/procesar", methods=["GET", "POST"])
 def procesar():
     if request.method == "GET":
-        return redirect(url_for("index_all"))  # Cambia a index_audio o index_video si prefieres
+        return redirect(url_for("index_all"))
 
     url = request.form["url"]
     modo = request.form.get("modo", "all")
 
-    ydl_opts = {
-        'quiet': True,
-        'skip_download': True,
-        'forcejson': True,
-        'cookiefile': 'cookies.txt'
-    }
+    # Detectar si hay cookies
+    cookies_path = os.path.join(os.getcwd(), "cookies.txt")
+    if os.path.isfile(cookies_path):
+        print("✅ Cookies detectadas. Usando autenticación.")
+        ydl_opts = {
+            'quiet': True,
+            'skip_download': True,
+            'forcejson': True,
+            'cookiefile': cookies_path
+        }
+    else:
+        print("⚠️ No se encontraron cookies. Intentando sin autenticación.")
+        ydl_opts = {
+            'quiet': True,
+            'skip_download': True,
+            'forcejson': True
+        }
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
     except Exception as e:
-        return f"Error: {str(e)}"
+        return f"<pre>Error al procesar el enlace:\n{str(e)}</pre>"
 
     formatos = info.get("formats", [])
 
-    # Filtrar por modo
     if modo == "audio":
         formatos = [f for f in formatos if f.get("vcodec") == "none"]
     elif modo == "video":
         formatos = [f for f in formatos if f.get("vcodec") != "none"]
 
-    # Solo formatos con tamaño válido
     formatos = [f for f in formatos if f.get("filesize") and f["filesize"] > 0]
-
-    # Ordenar por calidad
     formatos.sort(key=lambda x: x.get("height", 0) if x.get("vcodec") != "none" else x["filesize"], reverse=True)
 
     thumb = info.get("thumbnail") or info.get("thumbnails", [{}])[-1].get("url")
     titulo = info.get("title", "video")
 
     return render_template("formatos.html", formatos=formatos, titulo=titulo, thumb=thumb, modo=modo)
+
 
 
 @app.route("/descargar_stream", methods=["POST"])
