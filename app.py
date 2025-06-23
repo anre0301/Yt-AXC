@@ -20,8 +20,11 @@ def index_video():
 def index_all():
     return render_template("index.html", modo="all")
 
-@app.route("/procesar", methods=["POST"])
+@app.route("/procesar", methods=["GET", "POST"])
 def procesar():
+    if request.method == "GET":
+        return redirect(url_for("index_all"))  # Cambia a index_audio o index_video si prefieres
+
     url = request.form["url"]
     modo = request.form.get("modo", "all")
 
@@ -56,6 +59,7 @@ def procesar():
     titulo = info.get("title", "video")
 
     return render_template("formatos.html", formatos=formatos, titulo=titulo, thumb=thumb, modo=modo)
+
 
 @app.route("/descargar_stream", methods=["POST"])
 def descargar_stream():

@@ -4,53 +4,106 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    background: linear-gradient(-45deg, #0f2027, #ff2e63, #4facfe, #203a43);
-    background-size: 800% 800%;
-    animation: gradientBG 10s ease infinite;
+    background: linear-gradient(-45deg, #1f1c2c, #928DAB, #2c3e50, #4ca1af);
+    background-size: 400% 400%;
+    animation: gradientBG 30s ease infinite;
     color: #fff;
 }
 
-/* Animación de fondo */
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
 
-/* Barra de navegación */
+/* Navbar elegante y con animación */
 nav {
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(15, 15, 30, 0.92);
+    backdrop-filter: blur(12px);
     padding: 20px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
+/* Logo con animación de entrada */
 .logo {
     font-weight: 700;
     font-size: 24px;
     color: #ff2e63;
+    display: flex;
+    align-items: center;
+    gap: px;
+    animation: fadeInScale 1s ease-out forwards;
+    cursor: pointer;
 }
 
+.logo:hover {
+    transform: scale(1.05);
+}
+
+/* Menú limpio y con efecto en hover */
 .menu {
     list-style: none;
     display: flex;
-    gap: 30px;
+    gap: 35px;
+    margin: 0;
+    padding: 0;
 }
 
 .menu li a {
     text-decoration: none;
     font-weight: 600;
+    font-size: 16px;
     color: #eee;
-    transition: 0.3s ease;
+    padding: 4px 6px;
     border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
 }
+
+/* Hover general */
+.menu li a:hover {
+    color: #fff;
+    border-bottom: 2px solid #ff2e63;
+}
+
+/* Activos personalizados */
+.menu li a.active.mp3 {
+    color: #ff2e63;
+    border-bottom: 2px solid #ff2e63;
+}
+.menu li a.active.mp4 {
+    color: #e50914;
+    border-bottom: 2px solid #e50914;
+}
+.menu li a.active.all {
+    color: #00ff88;
+    border-bottom: 2px solid #00ff88;
+}
+
 
 .menu li a.active,
 .menu li a:hover {
     color: #ff2e63;
     border-bottom: 2px solid #ff2e63;
+}
+
+/* Estilo para el enlace activo en modo MP3 */
+.menu li a.active.mp3 {
+    color: #ff2e63;
+    border-bottom: 2px solid #ff2e63;
+}
+
+/* Estilo para el enlace activo en modo MP4 */
+.menu li a.active.mp4 {
+    color: #e50914;
+    border-bottom: 2px solid #e50914;
+}
+
+/* Estilo para el enlace activo en modo ALL */
+.menu li a.active.all {
+    color: #00ff88;
+    border-bottom: 2px solid #00ff88;
 }
 
 /* Contenido principal */
@@ -114,29 +167,38 @@ button:hover {
     color: #ccc;
 }
 
-/* Lista de formatos en grid de 3 */
+/* Lista de formatos adaptativa */
 .format-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px 35px; /* fila: 40px, columnas: 35px */
-    justify-items: center;
-    margin-top: 40px;
-    padding: 0 20px;
+    gap: 20px;
+    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.format-box {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 /* Caja de formato */
-.format-box {
-    background-color: rgba(255, 255, 255, 0.06);
-    padding: 14px 12px;
-    border-radius: 10px;
-    max-width: 200px;
+.format-box form {
     width: 100%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    font-size: 14px;
-    transition: transform 0.3s ease;
-    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
 }
+
 
 .format-box:hover {
     transform: translateY(-6px);
@@ -144,15 +206,18 @@ button:hover {
 
 /* Botón de descarga */
 .download-btn {
+    width: 100%;
+    max-width: 160px;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 25px;
+    font-weight: bold;
     background-color: #ff3c74;
     color: white;
     border: none;
-    padding: 10px 25px;
-    border-radius: 25px;
-    font-weight: bold;
-    margin-top: 12px;
     cursor: pointer;
     transition: background 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .download-btn:hover {
@@ -195,30 +260,17 @@ button:hover {
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive para tablets y móviles */
 @media (max-width: 1024px) {
     .format-list {
         grid-template-columns: repeat(2, 1fr);
-    }
-
-    input[type="url"] {
-        min-width: 300px;
+        gap: 20px;
     }
 }
 
-@media (max-width: 640px) {
+/* Cambia este bloque para que aún en móviles pequeños sea 2 columnas */
+@media (max-width: 480px) {
     .format-list {
-        grid-template-columns: repeat(1, 1fr);
-    }
-
-    form {
-        flex-direction: column;
-    }
-
-    input[type="url"], button {
-        border-radius: 8px;
-        width: 100%;
-        margin-bottom: 10px;
+        grid-template-columns: repeat(1, 1fr);  /* 1 columna solo en pantallas MUY pequeñas */
     }
 }
 
@@ -283,11 +335,6 @@ h1 {
     100% {background-position: 0% 50%;}
 }
 
-/* Mejor fondo animado (más suave) */
-body {
-    ...
-    animation: gradientBG 30s ease infinite; /* antes era 15s */
-}
 
 /* Navbar con borde inferior */
 nav {
@@ -333,14 +380,6 @@ nav {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
-    background-size: 400% 400%;
-    animation: gradientBG 30s ease infinite;
-    color: #fff;
 }
 
 /* Animación al cargar el título */
@@ -604,7 +643,7 @@ button {
     }
 
     .format-list {
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(1, 5fr);
         padding: 0;
     }
 
@@ -634,4 +673,15 @@ button {
     .features-title {
         font-size: 24px;
     }
+}
+
+.logo-img {
+    height: 100px;
+    max-height: 48px;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 0 4px rgba(0,0,0,0.3));
+}
+
+.logo-img:hover {
+    transform: scale(1.08);
 }

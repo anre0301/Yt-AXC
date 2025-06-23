@@ -15,10 +15,10 @@
   <i class="fab fa-youtube"></i> Yt <span>AXC</span>
 </div>
         <ul class="menu">
-            <li><a href="{{ url_for('index_audio') }}" class="{{ 'active' if modo == 'audio' else '' }}">YouTube a MP3</a></li>
-            <li><a href="{{ url_for('index_video') }}" class="{{ 'active' if modo == 'video' else '' }}">YouTube a MP4</a></li>
-            <li><a href="{{ url_for('index_all') }}" class="{{ 'active' if modo == 'html' else '' }}">All Video Downloader</a></li>
-        </ul>
+  <li><a href="{{ url_for('index_audio') }}" class="{% if modo == 'audio' %}active mp3{% endif %}">YouTube a MP3</a></li>
+  <li><a href="{{ url_for('index_video') }}" class="{% if modo == 'video' %}active mp4{% endif %}">YouTube a MP4</a></li>
+  <li><a href="{{ url_for('index_all') }}" class="{% if modo == 'all' %}active all{% endif %}">Todos los descargadores de videos</a></li>
+      </ul>
     </nav>
 
     <div class="container">

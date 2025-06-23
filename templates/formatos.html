@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Download Formats</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -9,9 +10,8 @@
 </head>
 <body>
     <nav>
-        <div class="logo">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="YT AXC" style="height: 32px; vertical-align: middle; margin-right: 10px;">
-            Yt AXC
+        <div class="logo animated-logo">
+  <i class="fab fa-youtube"></i> Yt <span>AXC</span>
         </div>
         <ul class="menu">
             <li><a href="{{ url_for('index_audio') }}" class="{{ 'active' if modo == 'audio' else '' }}">YouTube to MP3</a></li>
