@@ -9,7 +9,10 @@
 </head>
 <body>
     <nav>
-        <div class="logo">Yt AXC</div>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="YT AXC" style="height: 32px; vertical-align: middle; margin-right: 10px;">
+            Yt AXC
+        </div>
         <ul class="menu">
             <li><a href="{{ url_for('index_audio') }}" class="{{ 'active' if modo == 'audio' else '' }}">YouTube to MP3</a></li>
             <li><a href="{{ url_for('index_video') }}" class="{{ 'active' if modo == 'video' else '' }}">YouTube to MP4</a></li>

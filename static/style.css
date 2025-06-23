@@ -571,3 +571,67 @@ button {
     color: #ccc;
     line-height: 1.5;
 }
+
+@media (max-width: 1024px) {
+    .container {
+        padding: 40px 20px;
+    }
+
+    .format-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .logo img {
+        height: 28px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 640px) {
+    nav {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .menu {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .format-list {
+        grid-template-columns: repeat(1, 1fr);
+        padding: 0;
+    }
+
+    form {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .input-icon input, button {
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .video-thumbnail {
+        max-width: 90%;
+    }
+
+    .feature-box, .feature-card {
+        padding: 20px 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .features-title {
+        font-size: 24px;
+    }
+}
