@@ -29,6 +29,7 @@ def procesar():
         'quiet': True,
         'skip_download': True,
         'forcejson': True,
+        'cookiefile': 'cookies.txt'
     }
 
     try:
