@@ -1,15 +1,25 @@
+import browser_cookie3
+import http.cookiejar
 import os
 import subprocess
-import datetime
 
-REPO_PATH = r"C:\Users\yosel\OneDrive\Desktop\YT1D\YOUTUBE-DOWNLOADER"
-COMMIT_MSG = f"Auto update cookies - {datetime.datetime.now().isoformat()}"
+# Ruta donde se guardará cookies.txt
+cookies_file = "cookies.txt"
 
-os.chdir(REPO_PATH)
+# Extraer cookies de YouTube desde Chrome
+cj = browser_cookie3.chrome(domain_name=".youtube.com")
 
-print("📦 Subiendo cookies.txt a GitHub...")
-subprocess.run(["git", "add", "cookies.txt"])
-subprocess.run(["git", "commit", "-m", COMMIT_MSG])
-subprocess.run(["git", "push", "origin", "main"])  # o usa "master" si tu rama se llama así
+# Guardar en formato Netscape
+cj.clear_expired_cookies()
+cj.save(cookies_file, ignore_discard=True, ignore_expires=True)
 
-print("✅ Push completado.")
+print("✅ cookies.txt exportado desde el navegador.")
+
+# Subir a GitHub
+try:
+    subprocess.run(["git", "add", "cookies.txt"], check=True)
+    subprocess.run(["git", "commit", "-m", "🆕 Actualización automática de cookies"], check=True)
+    subprocess.run(["git", "push", "origin", "main"], check=True)
+    print("🚀 cookies.txt subido a GitHub.")
+except subprocess.CalledProcessError as e:
+    print(f"❌ Error al subir a GitHub: {e}")
