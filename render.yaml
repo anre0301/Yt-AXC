@@ -5,3 +5,10 @@ services:
     buildCommand: ""
     startCommand: gunicorn app:app
     plan: free
+
+  - type: worker
+    name: cookies-auto-updater
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python auto_cookies/extraer_cookies.py"
+    schedule: "@daily"
