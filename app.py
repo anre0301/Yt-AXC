@@ -1,24 +1,39 @@
-from flask import Flask, render_template, request, Response, send_file
+from flask import Flask, render_template, request, Response, send_file, redirect, url_for
 import os
 import yt_dlp
 import uuid
 import tempfile
 import subprocess
 import requests
+import urllib.request
 
 app = Flask(__name__)
+
+# 📥 DESCARGAR AUTOMÁTICAMENTE COOKIES DESDE GITHUB
+COOKIES_URL = "https://raw.githubusercontent.com/anre0301/Yt-AXC/main/cookies.txt"
+cookies_path = os.path.join(os.getcwd(), "cookies.txt")
+
+try:
+    urllib.request.urlretrieve(COOKIES_URL, cookies_path)
+    print("✅ cookies.txt descargado desde GitHub")
+except Exception as e:
+    print(f"⚠️ No se pudo descargar cookies.txt: {e}")
+
 
 @app.route("/", endpoint="index_audio")
 def index_audio():
     return render_template("index.html", modo="audio")
 
+
 @app.route("/mp4", endpoint="index_video")
 def index_video():
     return render_template("index.html", modo="video")
 
+
 @app.route("/all", endpoint="index_all")
 def index_all():
     return render_template("index.html", modo="all")
+
 
 @app.route("/procesar", methods=["GET", "POST"])
 def procesar():
@@ -28,10 +43,8 @@ def procesar():
     url = request.form["url"]
     modo = request.form.get("modo", "all")
 
-    # Detectar si hay cookies
-    cookies_path = os.path.join(os.getcwd(), "cookies.txt")
+    # 📦 Configuración de yt-dlp según cookies
     if os.path.isfile(cookies_path):
-        print("✅ Cookies detectadas. Usando autenticación.")
         ydl_opts = {
             'quiet': True,
             'skip_download': True,
@@ -46,10 +59,27 @@ def procesar():
             'forcejson': True
         }
 
+    # 🔍 Extraer info
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
     except Exception as e:
+        if "Sign in to confirm" in str(e):
+            return f"""
+<pre>
+⚠️ Este video requiere iniciar sesión para confirmar que no eres un bot.
+
+El sistema necesita autenticación mediante cookies.
+
+Solución:
+🔸 Asegúrate de haber subido un archivo válido `cookies.txt` a tu repositorio.
+🔸 Puedes exportarlas desde Chrome/Edge usando: 
+    https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp
+
+Detalles técnicos:
+{str(e)}
+</pre>
+"""
         return f"<pre>Error al procesar el enlace:\n{str(e)}</pre>"
 
     formatos = info.get("formats", [])
@@ -68,7 +98,6 @@ def procesar():
     return render_template("formatos.html", formatos=formatos, titulo=titulo, thumb=thumb, modo=modo)
 
 
-
 @app.route("/descargar_stream", methods=["POST"])
 def descargar_stream():
     stream_url = request.form["stream_url"]
@@ -84,11 +113,9 @@ def descargar_stream():
     except Exception as e:
         return f"Error al descargar: {str(e)}"
 
+
 @app.route("/descargar_mp3", methods=["POST"])
 def descargar_mp3():
-    from flask import send_file
-    import subprocess
-
     url = request.form["stream_url"]
     filename = request.form["filename"].rsplit(".", 1)[0]
     ffmpeg_path = r"C:\Users\yosel\Downloads\ffmpeg-7.1.1-full_build\ffmpeg-7.1.1-full_build\bin\ffmpeg.exe"
